@@ -96,7 +96,7 @@ const config = {
     apiKey: process.env.ZERNIO_API_KEY || "",
     baseUrl: (process.env.ZERNIO_API_URL || "https://zernio.com/api/v1").replace(/\/+$/, ""),
     // Callback URL mawaDao hands to Zernio during OAuth connect flows
-    callbackUrl: process.env.ZERNIO_CALLBACK_URL || "https://mawadao.com/seller/social-accounts/oauth-callback",
+    callbackUrl: process.env.ZERNIO_CALLBACK_URL || "https://agent.mawadao.com/seller/social-accounts/oauth-callback",
   },
 };
 
