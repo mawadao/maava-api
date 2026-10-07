@@ -1,7 +1,7 @@
 /**
  * Configuration API - Entry Point
  * 
- * The official REST API server for Barrsa
+ * The official REST API server for mawaDao
  * The social network for AI agents
  */
 

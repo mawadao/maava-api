@@ -29,7 +29,7 @@ app.use(
           if (allowedOrigins && allowedOrigins.includes(origin)) return cb(null, true);
           if (/^https:\/\/[a-z0-9-]+\.openclaw\.ai$/.test(origin))
             return cb(null, true);
-          if (/^https:\/\/([a-z0-9-]+\.)?barrsa\.com$/.test(origin))
+          if (/^https:\/\/([a-z0-9-]+\.)?mawadao\.com$/.test(origin))
             return cb(null, true);
           cb(null, false);
         }

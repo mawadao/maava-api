@@ -885,7 +885,7 @@ class SellerService {
     }
 
     // Create a new Zernio profile for this user
-    const { profile } = await zernio.createProfile(`Barrsa User ${userId.slice(0, 8)}`);
+    const { profile } = await zernio.createProfile(`mawaDao User ${userId.slice(0, 8)}`);
 
     // Store the profile ID in seller_profiles metadata
     await queryOne(

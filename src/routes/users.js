@@ -71,7 +71,7 @@ router.post(
             serviceName: result.user.username,
             containerImage:
               process.env.CLOUD_BACKEND_IMAGE ||
-              "europe-west1-docker.pkg.dev/barrsaai/barrsa-platform/tenant-platform:latest",
+              "ghcr.io/mawadao/mawadao-agent-gateway:latest",
             region: "europe-west1",
             env: [
               { name: "OPENCLAW_GATEWAY_TOKEN", value: process.env.OPENCLAW_GATEWAY_TOKEN || "mysecrettoken" },

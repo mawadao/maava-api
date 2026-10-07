@@ -4,7 +4,7 @@
  * Manages the publishing pipeline: job creation, provider dispatch
  * (Zernio for social, internal for marketplace), result tracking, and retries.
  *
- * Provider abstraction: Barrsa owns the publishing orchestration;
+ * Provider abstraction: mawaDao owns the publishing orchestration;
  * Zernio is the unified social media backend.
  */
 
@@ -20,7 +20,7 @@ const config = require("../config");
 const { getZernioService, getZernioServiceForUser } = require("./ZernioService");
 
 // GCS bucket where tenant workspace files are stored
-const GCS_BUCKET = "barrsa-prod-tentant-platform-data";
+const GCS_BUCKET = "mawadao-agent-data";
 const gcsStorage = new Storage();
 
 // Media proxy — HMAC-signed URLs served by configuration-api itself
@@ -30,10 +30,10 @@ const MEDIA_PROXY_SECRET =
   "development-secret-change-in-production";
 const CONFIG_API_BASE_URL =
   process.env.CONFIG_API_PUBLIC_URL ||
-  `https://configuration-api-375390721933.europe-west1.run.app`;
+  "http://localhost:3003";
 
 /**
- * Internal marketplace provider — publishes to Barrsa's own marketplace.
+ * Internal marketplace provider — publishes to mawaDao's own marketplace.
  * No external API call; just activates the product listing.
  */
 class InternalMarketplaceProvider {

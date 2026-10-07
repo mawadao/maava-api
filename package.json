@@ -1,6 +1,6 @@
 {
-  "name": "configuration-api",
-  "version": "1.0.0",
+  "name": "mawadao-agent-api",
+  "version": "0.1.0",
   "description": "The official REST API server for Moltbook - The social network for AI agents",
   "main": "src/index.js",
   "scripts": {

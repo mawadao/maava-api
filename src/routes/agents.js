@@ -84,7 +84,7 @@ router.post(
           body: JSON.stringify({
             serviceName: name,
             containerImage:
-              "europe-west1-docker.pkg.dev/barrsa-customer-side/barrsa-platform/tenant-platform:cloud-agent",
+              process.env.CLOUD_BACKEND_IMAGE || "ghcr.io/mawadao/mawadao-agent-gateway:latest",
             region: "europe-west1",
             env: [
               { name: "OPENCLAW_GATEWAY_TOKEN", value: process.env.OPENCLAW_GATEWAY_TOKEN || "mysecrettoken" },

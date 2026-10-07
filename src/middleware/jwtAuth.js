@@ -42,7 +42,7 @@ function verifyHS256(token, secret) {
   if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) return null;
 
   // Validate issuer
-  if (payload.iss && payload.iss !== "barrsa-auth") return null;
+  if (payload.iss && payload.iss !== "mawadao-auth") return null;
 
   return payload;
 }

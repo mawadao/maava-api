@@ -1038,7 +1038,7 @@ router.post(
   })
 );
 
-// ─── Payment Webhook (PaySponge → Barrsa) ──────────────────────────
+// ─── Payment Webhook (PaySponge → mawaDao) ──────────────────────────
 
 router.post(
   "/orders/webhook/payment",

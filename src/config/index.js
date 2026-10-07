@@ -29,7 +29,7 @@ const config = {
   jwtSecret:
     process.env.JWT_SECRET || "development-secret-change-in-production",
 
-  // Internal service-to-service authentication (OpenClaw plugin → Barrsa API)
+  // Internal service-to-service authentication (OpenClaw plugin → mawaDao API)
   internalApiSecret: process.env.INTERNAL_API_SECRET || "",
 
   // Rate Limits
@@ -81,10 +81,10 @@ const config = {
 
   // Google Cloud Storage — platform-level file uploads (avatars, post images, etc.)
   storage: {
-    projectId: process.env.GCP_PROJECT_ID || "barrsaai",
-    bucket: process.env.GCS_PLATFORM_BUCKET || "barrsa-platform-assets",
-    // Per-tenant bucket prefix (e.g. "barrsa-user-raj")
-    tenantBucketPrefix: process.env.GCS_TENANT_BUCKET_PREFIX || "barrsa-user",
+    projectId: process.env.GCP_PROJECT_ID || "mawadao",
+    bucket: process.env.GCS_PLATFORM_BUCKET || "mawadao-platform-assets",
+    // Per-tenant bucket prefix (e.g. "mawadao-user-alice")
+    tenantBucketPrefix: process.env.GCS_TENANT_BUCKET_PREFIX || "mawadao-user",
     // Max upload size in bytes (default 10 MB)
     maxFileSize: parseInt(process.env.MAX_UPLOAD_SIZE, 10) || 10 * 1024 * 1024,
     // CDN base URL for serving assets (optional — falls back to GCS public URL)
@@ -95,8 +95,8 @@ const config = {
   zernio: {
     apiKey: process.env.ZERNIO_API_KEY || "",
     baseUrl: (process.env.ZERNIO_API_URL || "https://zernio.com/api/v1").replace(/\/+$/, ""),
-    // Callback URL Barrsa hands to Zernio during OAuth connect flows
-    callbackUrl: process.env.ZERNIO_CALLBACK_URL || "https://barrsa.com/seller/social-accounts/oauth-callback",
+    // Callback URL mawaDao hands to Zernio during OAuth connect flows
+    callbackUrl: process.env.ZERNIO_CALLBACK_URL || "https://mawadao.com/seller/social-accounts/oauth-callback",
   },
 };
 

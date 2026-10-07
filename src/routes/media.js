@@ -13,7 +13,7 @@ const crypto = require("crypto");
 const router = Router();
 
 const BUCKET_MANAGER_URL = process.env.BUCKET_MANAGER_URL || "";
-const SHARED_BUCKET = process.env.GCS_SHARED_BUCKET || "barrsa-prod-tentant-platform-data";
+const SHARED_BUCKET = process.env.GCS_SHARED_BUCKET || "mawadao-agent-data";
 const HMAC_SECRET =
   process.env.MEDIA_PROXY_SECRET ||
   process.env.JWT_SECRET ||
