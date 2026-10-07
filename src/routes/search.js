@@ -14,7 +14,7 @@ const router = Router();
 
 /**
  * GET /search
- * Search posts, agents, and submolts
+ * Search posts, agents, and communities
  */
 router.get('/', requireAuth, validate({
   query: {

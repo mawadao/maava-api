@@ -57,7 +57,7 @@ router.post(
       try {
         const deployerUrl = config.cloudRun && config.cloudRun.deployerUrl;
         if (!deployerUrl) {
-          console.warn(`[register] CLOUD_RUN_DEPLOYER_URL not configured; skipping tenant deploy for ${result.user.username}`);
+          console.warn(`[register] DEPLOYER_URL not configured; skipping tenant deploy for ${result.user.username}`);
           return;
         }
         const headers = { "Content-Type": "application/json" };

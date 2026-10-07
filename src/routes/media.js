@@ -2,9 +2,9 @@
  * Media proxy route — serves GCS files via HMAC-signed, time-limited URLs.
  *
  * Used by PublishingService to give Zernio (and other external consumers)
- * a publicly-downloadable URL.  Files are fetched through bucket-manager
+ * a publicly-downloadable URL.  Files are fetched through mawadao-agent-storage
  * (which has the GCS Storage Object Viewer role) rather than directly
- * from GCS — so configuration-api's own SA doesn't need storage permissions.
+ * from GCS — so mawadao-agent-api's own SA doesn't need storage permissions.
  */
 
 const { Router } = require("express");
@@ -12,7 +12,7 @@ const crypto = require("crypto");
 
 const router = Router();
 
-const BUCKET_MANAGER_URL = process.env.BUCKET_MANAGER_URL || "";
+const STORAGE_URL = process.env.STORAGE_URL || "";
 const SHARED_BUCKET = process.env.GCS_SHARED_BUCKET || "mawadao-agent-data";
 const HMAC_SECRET =
   process.env.MEDIA_PROXY_SECRET ||
@@ -29,18 +29,18 @@ const MIME_MAP = {
 };
 
 /**
- * Get auth headers for bucket-manager (IAM identity token on Cloud Run).
+ * Get auth headers for mawadao-agent-storage (IAM identity token on Cloud Run).
  */
 async function bmHeaders() {
   const h = {};
-  if (process.env.BUCKET_MANAGER_API_SECRET) {
-    h["X-Bucket-Manager-Secret"] = process.env.BUCKET_MANAGER_API_SECRET;
+  if (process.env.STORAGE_API_SECRET) {
+    h["X-Storage-Secret"] = process.env.STORAGE_API_SECRET;
   }
   if (process.env.K_SERVICE) {
     try {
       const metaUrl =
         `http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/identity` +
-        `?audience=${encodeURIComponent(BUCKET_MANAGER_URL)}`;
+        `?audience=${encodeURIComponent(STORAGE_URL)}`;
       const res = await fetch(metaUrl, {
         headers: { "Metadata-Flavor": "Google" },
         signal: AbortSignal.timeout(3000),
@@ -55,7 +55,7 @@ async function bmHeaders() {
  * GET /api/v1/media/serve?path=<gcsPath>&exp=<timestamp>&sig=<hmac>
  *
  * Validates HMAC signature and expiry, then fetches the file from
- * bucket-manager and streams it to the caller.
+ * mawadao-agent-storage and streams it to the caller.
  * No auth middleware — must be publicly reachable for Zernio to download.
  */
 router.get("/serve", async (req, res) => {
@@ -81,13 +81,13 @@ router.get("/serve", async (req, res) => {
     return res.status(403).json({ error: "Invalid signature" });
   }
 
-  if (!BUCKET_MANAGER_URL) {
-    console.error("[media-serve] BUCKET_MANAGER_URL not configured");
+  if (!STORAGE_URL) {
+    console.error("[media-serve] STORAGE_URL not configured");
     return res.status(503).json({ error: "Media service unavailable" });
   }
 
   try {
-    const bmUrl = `${BUCKET_MANAGER_URL}/api/v1/buckets/${encodeURIComponent(SHARED_BUCKET)}/files/${gcsPath}`;
+    const bmUrl = `${STORAGE_URL}/api/v1/buckets/${encodeURIComponent(SHARED_BUCKET)}/files/${gcsPath}`;
     const headers = await bmHeaders();
     const bmRes = await fetch(bmUrl, {
       headers,
@@ -95,7 +95,7 @@ router.get("/serve", async (req, res) => {
     });
 
     if (!bmRes.ok) {
-      console.error(`[media-serve] bucket-manager responded ${bmRes.status} for ${gcsPath}`);
+      console.error(`[media-serve] mawadao-agent-storage responded ${bmRes.status} for ${gcsPath}`);
       const status = bmRes.status === 404 ? 404 : 502;
       return res.status(status).json({ error: status === 404 ? "File not found" : "Failed to fetch file" });
     }
@@ -109,7 +109,7 @@ router.get("/serve", async (req, res) => {
       res.setHeader("Content-Length", bmRes.headers.get("content-length"));
     }
 
-    // Stream from bucket-manager → caller
+    // Stream from mawadao-agent-storage → caller
     const reader = bmRes.body.getReader();
     const pump = async () => {
       while (true) {

@@ -3,7 +3,7 @@
  *
  * Tests the full API against the live database:
  *   - Agent registration, login, profile
- *   - Submolt (community) CRUD & subscriptions
+ *   - Community (community) CRUD & subscriptions
  *   - Posts (create, feed, delete)
  *   - Comments (create, thread, delete)
  *   - Voting (upvote/downvote posts & comments)
@@ -111,7 +111,7 @@ const AGENT_A = { name: `test_agent_a_${TS}`, password: "TestPass123!" };
 const AGENT_B = { name: `test_agent_b_${TS}`, password: "TestPass456!" };
 let agentA = {}; // { id, apiKey, name }
 let agentB = {};
-let submoltName;
+let communityName;
 let postId;
 let commentId;
 let listingId;
@@ -234,57 +234,57 @@ describe("Agent Profile", () => {
   });
 });
 
-// 4. Submolt (Community) CRUD
-describe("Submolt (Community)", () => {
-  it("creates a new submolt", async () => {
-    submoltName = `test_sub_${TS}`;
-    if (submoltName.length > 24) submoltName = submoltName.slice(0, 24);
+// 4. Community (Community) CRUD
+describe("Community (Community)", () => {
+  it("creates a new community", async () => {
+    communityName = `test_sub_${TS}`;
+    if (communityName.length > 24) communityName = communityName.slice(0, 24);
     const r = await post(
-      "/api/v1/submolts",
-      { name: submoltName, display_name: "Test Submolt", description: "Integration test community" },
+      "/api/v1/communities",
+      { name: communityName, display_name: "Test Community", description: "Integration test community" },
       auth(agentA.apiKey)
     );
-    assertEqual(r.status, 201, `Create submolt failed: ${JSON.stringify(r.body)}`);
+    assertEqual(r.status, 201, `Create community failed: ${JSON.stringify(r.body)}`);
   });
 
-  it("rejects duplicate submolt name", async () => {
+  it("rejects duplicate community name", async () => {
     const r = await post(
-      "/api/v1/submolts",
-      { name: submoltName, display_name: "Dup", description: "dup" },
+      "/api/v1/communities",
+      { name: communityName, display_name: "Dup", description: "dup" },
       auth(agentA.apiKey)
     );
-    assert(r.status >= 400, "Should reject duplicate submolt");
+    assert(r.status >= 400, "Should reject duplicate community");
   });
 
-  it("GET /submolts lists communities", async () => {
-    const r = await get("/api/v1/submolts", auth(agentA.apiKey));
+  it("GET /communities lists communities", async () => {
+    const r = await get("/api/v1/communities", auth(agentA.apiKey));
     assertEqual(r.status, 200);
     assert(Array.isArray(r.body.data), "Should return array");
   });
 
-  it("GET /submolts/:name returns submolt info", async () => {
-    const r = await get(`/api/v1/submolts/${submoltName}`, auth(agentA.apiKey));
+  it("GET /communities/:name returns community info", async () => {
+    const r = await get(`/api/v1/communities/${communityName}`, auth(agentA.apiKey));
     assertEqual(r.status, 200);
-    assertEqual(r.body.submolt.name, submoltName);
+    assertEqual(r.body.community.name, communityName);
   });
 
-  it("agent B subscribes to submolt", async () => {
-    const r = await post(`/api/v1/submolts/${submoltName}/subscribe`, {}, auth(agentB.apiKey));
+  it("agent B subscribes to community", async () => {
+    const r = await post(`/api/v1/communities/${communityName}/subscribe`, {}, auth(agentB.apiKey));
     assertEqual(r.status, 200, `Subscribe failed: ${JSON.stringify(r.body)}`);
   });
 
-  it("agent B unsubscribes from submolt", async () => {
-    const r = await del(`/api/v1/submolts/${submoltName}/subscribe`, auth(agentB.apiKey));
+  it("agent B unsubscribes from community", async () => {
+    const r = await del(`/api/v1/communities/${communityName}/subscribe`, auth(agentB.apiKey));
     assertEqual(r.status, 200, `Unsubscribe failed: ${JSON.stringify(r.body)}`);
   });
 });
 
 // 5. Posts
 describe("Posts", () => {
-  it("creates a text post in submolt", async () => {
+  it("creates a text post in community", async () => {
     const r = await post(
       "/api/v1/posts",
-      { submolt: submoltName, title: "Integration Test Post", content: "Hello from the test suite!" },
+      { community: communityName, title: "Integration Test Post", content: "Hello from the test suite!" },
       auth(agentA.apiKey)
     );
     assertEqual(r.status, 201, `Create post failed: ${JSON.stringify(r.body)}`);
@@ -295,19 +295,19 @@ describe("Posts", () => {
   it("rejects post without title", async () => {
     const r = await post(
       "/api/v1/posts",
-      { submolt: submoltName, content: "No title" },
+      { community: communityName, content: "No title" },
       auth(agentB.apiKey)
     );
     assertEqual(r.status, 400);
   });
 
-  it("rejects post to nonexistent submolt", async () => {
+  it("rejects post to nonexistent community", async () => {
     const r = await post(
       "/api/v1/posts",
-      { submolt: "nonexistent_sub_xyz", title: "Fail", content: "Should fail" },
+      { community: "nonexistent_sub_xyz", title: "Fail", content: "Should fail" },
       auth(agentB.apiKey)
     );
-    assert(r.status >= 400, "Should reject nonexistent submolt");
+    assert(r.status >= 400, "Should reject nonexistent community");
   });
 
   it("GET /posts returns feed", async () => {
@@ -322,8 +322,8 @@ describe("Posts", () => {
     assert(r.body.post, "Should have post object");
   });
 
-  it("GET /submolts/:name/feed returns posts", async () => {
-    const r = await get(`/api/v1/submolts/${submoltName}/feed?sort=new`, auth(agentA.apiKey));
+  it("GET /communities/:name/feed returns posts", async () => {
+    const r = await get(`/api/v1/communities/${communityName}/feed?sort=new`, auth(agentA.apiKey));
     assertEqual(r.status, 200);
   });
 });
@@ -549,9 +549,9 @@ async function cleanup(pool) {
     await pool.query(`DELETE FROM posts WHERE author_id IN ($1, $2)`, [agentA.id, agentB.id]);
     await pool.query(`DELETE FROM follows WHERE follower_id IN ($1, $2) OR followed_id IN ($1, $2)`, [agentA.id, agentB.id]);
     await pool.query(`DELETE FROM subscriptions WHERE agent_id IN ($1, $2)`, [agentA.id, agentB.id]);
-    await pool.query(`DELETE FROM submolt_moderators WHERE agent_id IN ($1, $2)`, [agentA.id, agentB.id]);
-    if (submoltName) {
-      await pool.query(`DELETE FROM submolts WHERE name = $1`, [submoltName]);
+    await pool.query(`DELETE FROM community_moderators WHERE agent_id IN ($1, $2)`, [agentA.id, agentB.id]);
+    if (communityName) {
+      await pool.query(`DELETE FROM communities WHERE name = $1`, [communityName]);
     }
     await pool.query(`DELETE FROM agents WHERE id IN ($1, $2)`, [agentA.id, agentB.id]);
     console.log("  [cleanup] Test data removed.");

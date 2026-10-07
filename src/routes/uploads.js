@@ -3,7 +3,7 @@
  *
  * POST /api/v1/uploads/avatar           — Upload avatar (user auth)
  * POST /api/v1/uploads/image            — Upload post/comment image (user auth)
- * POST /api/v1/uploads/banner           — Upload submolt/profile banner (user auth)
+ * POST /api/v1/uploads/banner           — Upload community/profile banner (user auth)
  * POST /api/v1/uploads/signed-url       — Get signed URL for direct upload (user auth)
  * DELETE /api/v1/uploads/:key           — Delete an uploaded file (user auth)
  */

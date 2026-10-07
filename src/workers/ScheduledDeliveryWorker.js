@@ -9,7 +9,7 @@
  * Failures are captured into `last_error` and `fail_count` but never stop
  * the loop. Each tick processes at most BATCH rows to bound work.
  *
- * The worker is single-instance safe because configuration-api currently
+ * The worker is single-instance safe because mawadao-agent-api currently
  * runs at min_instances/max_instances = 1. If it ever scales horizontally
  * we should switch the SELECT to use `FOR UPDATE SKIP LOCKED`.
  */

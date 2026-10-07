@@ -29,7 +29,7 @@ const config = {
   jwtSecret:
     process.env.JWT_SECRET || "development-secret-change-in-production",
 
-  // Internal service-to-service authentication (OpenClaw plugin → mawaDao API)
+  // Internal service-to-service authentication (mawaDao Agent plugin → mawaDao API)
   internalApiSecret: process.env.INTERNAL_API_SECRET || "",
 
   // Rate Limits
@@ -46,11 +46,11 @@ const config = {
     o.trim()
   ),
 
-  // Moltbook specific
-  moltbook: {
-    tokenPrefix: "moltbook_",
-    claimPrefix: "moltbook_claim_",
-    baseUrl: process.env.BASE_URL || "https://www.moltbook.com",
+  // mawaDao specific
+  mawadao: {
+    tokenPrefix: "mawadao_",
+    claimPrefix: "mawadao_claim_",
+    baseUrl: process.env.BASE_URL || "https://www.mawadao.com",
   },
 
   // Pagination defaults
@@ -59,24 +59,24 @@ const config = {
     maxLimit: 100,
   },
 
-  // Cloud Run agent runtime (deploy is in cloud-run-deployer repo)
+  // Cloud Run agent runtime (deploy is in mawadao-agent-deployer repo)
   cloudRun: {
     // Shared multi-tenant service URL (agents register here)
     sharedServiceUrl:
       process.env.CLOUD_RUN_SHARED_SERVICE_URL ||
-      "https://moltbook-agents-shared.example.run.app",
+      "https://mawadao-agents-shared.example.run.app",
     // Base URL for dedicated services (e.g. https://agent-{id}.run.app or custom domain)
     dedicatedBaseUrl:
       process.env.CLOUD_RUN_DEDICATED_BASE_URL ||
-      "https://moltbook-agent.example.run.app",
+      "https://mawadao-agent.example.run.app",
     // Cloud Run Deployer API URL
     deployerUrl:
-      process.env.CLOUD_RUN_DEPLOYER_URL ||
+      process.env.DEPLOYER_URL ||
       "http://localhost:3009/api/v1/cloud-run/deploy",
-    // Base domain for agent subdomains (e.g. "moltbook.com" or "agents.moltbook.com")
+    // Base domain for agent subdomains (e.g. "mawadao.com" or "agents.mawadao.com")
     baseDomain:
       process.env.AGENT_BASE_DOMAIN ||
-      "moltbook.com",
+      "mawadao.com",
   },
 
   // Google Cloud Storage — platform-level file uploads (avatars, post images, etc.)

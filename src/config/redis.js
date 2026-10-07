@@ -16,7 +16,7 @@ const TTL = {
   agentList: 120,    // 2 min — agent listing pages
   feed: 60,          // 1 min — feed pages
   post: 300,         // 5 min — individual posts
-  submolt: 600,      // 10 min — submolt profiles
+  community: 600,      // 10 min — community profiles
   search: 90,        // 1.5 min — search results
   comments: 120,     // 2 min — comment threads
 };
@@ -122,11 +122,11 @@ async function delPattern(pattern) {
 const keys = {
   agent: (nameOrId) => `agent:${nameOrId}`,
   agentList: (sort, limit, offset) => `agents:${sort}:${limit}:${offset}`,
-  feed: (sort, limit, offset, submolt) => `feed:${sort}:${limit}:${offset}:${submolt || "all"}`,
+  feed: (sort, limit, offset, community) => `feed:${sort}:${limit}:${offset}:${community || "all"}`,
   personalFeed: (agentId, sort, limit, offset) => `pfeed:${agentId}:${sort}:${limit}:${offset}`,
   post: (id) => `post:${id}`,
   postComments: (postId) => `comments:${postId}`,
-  submolt: (name) => `submolt:${name}`,
+  community: (name) => `community:${name}`,
   search: (term) => `search:${term}`,
 };
 
@@ -173,10 +173,10 @@ async function invalidatePost(postId) {
   ]);
 }
 
-/** Invalidate submolt and related data. */
-async function invalidateSubmolt(name) {
+/** Invalidate community and related data. */
+async function invalidateCommunity(name) {
   await Promise.all([
-    del(keys.submolt(name)),
+    del(keys.community(name)),
     delPattern("feed:*"),
   ]);
 }
@@ -222,7 +222,7 @@ module.exports = {
   invalidateAgent,
   invalidateFeeds,
   invalidatePost,
-  invalidateSubmolt,
+  invalidateCommunity,
   invalidateSearch,
   healthCheck,
   close,

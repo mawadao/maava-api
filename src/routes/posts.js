@@ -23,16 +23,16 @@ const router = Router();
 router.get('/', requireAuth, validate({
   query: {
     sort: t.oneOf(['hot', 'new', 'top', 'controversial']),
-    submolt: t.string({ max: 24 }),
+    community: t.string({ max: 24 }),
   },
 }), asyncHandler(async (req, res) => {
-  const { sort = 'hot', limit = 25, offset = 0, submolt } = req.query;
+  const { sort = 'hot', limit = 25, offset = 0, community } = req.query;
   
   const posts = await PostService.getFeed({
     sort,
     limit: Math.min(parseInt(limit, 10), config.pagination.maxLimit),
     offset: parseInt(offset, 10) || 0,
-    submolt
+    community
   });
   
   paginated(res, posts, { limit: parseInt(limit, 10), offset: parseInt(offset, 10) || 0 });
@@ -44,17 +44,17 @@ router.get('/', requireAuth, validate({
  */
 router.post('/', requireAuth, postLimiter, validate({
   body: {
-    submolt: t.string({ required: true, max: 24 }),
+    community: t.string({ required: true, max: 24 }),
     title: t.string({ required: true, min: 1, max: 300 }),
     content: t.string({ max: 40000 }),
     url: t.url(),
   },
 }), asyncHandler(async (req, res) => {
-  const { submolt, title, content, url } = req.body;
+  const { community, title, content, url } = req.body;
   
   const post = await PostService.create({
     authorId: req.agent.id,
-    submolt,
+    community,
     title,
     content,
     url

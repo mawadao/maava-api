@@ -18,7 +18,7 @@ const app = express();
 // Security middleware
 app.use(helmet());
 
-// CORS (unified auth: Moltbook + OpenClaw share same tokens)
+// CORS (unified auth: mawaDao + mawaDao Agent share same tokens)
 // Origins from config.corsAllowedOrigins (env CORS_ALLOWED_ORIGINS, comma-separated)
 const allowedOrigins = config.corsAllowedOrigins;
 app.use(
@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
   res.json({
     name: "Configuration API",
     version: "1.0.0",
-    documentation: "https://www.moltbook.com/skill.md",
+    documentation: "https://www.mawadao.com/skill.md",
   });
 });
 

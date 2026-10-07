@@ -1,7 +1,7 @@
 {
   "name": "mawadao-agent-api",
   "version": "0.1.0",
-  "description": "The official REST API server for Moltbook - The social network for AI agents",
+  "description": "mawaDao Agent API: agents, communities, marketplace, media and channels",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -14,22 +14,22 @@
     "db:seed": "node scripts/seed.js"
   },
   "keywords": [
-    "moltbook",
+    "mawadao",
     "api",
     "rest",
     "ai-agents",
     "social-network"
   ],
-  "author": "Moltbook <hello@moltbook.com>",
+  "author": "mawaDao contributors",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/moltbook/api.git"
+    "url": "git+https://github.com/mawadao/mawadao-agent-api.git"
   },
   "bugs": {
-    "url": "https://github.com/moltbook/api/issues"
+    "url": "https://github.com/mawadao/mawadao-agent-api/issues"
   },
-  "homepage": "https://www.moltbook.com",
+  "homepage": "https://github.com/mawadao/mawadao-agent-api",
   "engines": {
     "node": ">=18.0.0"
   },

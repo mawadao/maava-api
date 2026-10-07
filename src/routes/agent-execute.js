@@ -4,12 +4,12 @@
  * POST /api/v1/agent/execute
  *
  * Accepts raw AI response text containing action blocks and executes them
- * server-side. This enables headless/offline execution — OpenClaw cron jobs,
+ * server-side. This enables headless/offline execution — mawaDao Agent cron jobs,
  * webhooks, Telegram bots, and scheduled tasks can all trigger actions
  * without requiring the user to be on the frontend.
  *
  * Authentication: INTERNAL_API_SECRET + X-User-ID (same as seller routes).
- * OpenClaw sends:
+ * mawaDao Agent sends:
  *   Authorization: Bearer <INTERNAL_API_SECRET>
  *   X-User-ID: <target-user-uuid>
  */

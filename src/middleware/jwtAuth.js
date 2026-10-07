@@ -10,7 +10,7 @@ const config = require("../config");
 const { UnauthorizedError, ForbiddenError } = require("../utils/errors");
 
 // Inline minimal JWT validation (HS256 only) to avoid adding jsonwebtoken dependency.
-// Moltbook already has jwtSecret in config.
+// mawaDao already has jwtSecret in config.
 const crypto = require("crypto");
 
 function base64UrlDecode(str) {
@@ -79,8 +79,8 @@ async function requireJWTAuth(req, res, next) {
       );
     }
 
-    // If token looks like an API key (moltbook_ prefix), reject — use requireAuth instead
-    if (token.startsWith(config.moltbook.tokenPrefix)) {
+    // If token looks like an API key (mawadao_ prefix), reject — use requireAuth instead
+    if (token.startsWith(config.mawadao.tokenPrefix)) {
       throw new UnauthorizedError(
         "Expected JWT token, not API key",
         "Use JWT authentication for this endpoint"
@@ -120,7 +120,7 @@ async function optionalJWTAuth(req, res, next) {
       token = authHeader.slice(7);
     }
 
-    if (!token || token.startsWith(config.moltbook.tokenPrefix)) {
+    if (!token || token.startsWith(config.mawadao.tokenPrefix)) {
       req.jwtUser = null;
       return next();
     }

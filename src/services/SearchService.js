@@ -1,6 +1,6 @@
 /**
  * Search Service
- * Handles search across posts, agents, and submolts
+ * Handles search across posts, agents, and communities
  */
 
 const { queryAll } = require('../config/database');
@@ -16,7 +16,7 @@ class SearchService {
    */
   static async search(query, { limit = 25 } = {}) {
     if (!query || query.trim().length < 2) {
-      return { posts: [], agents: [], submolts: [] };
+      return { posts: [], agents: [], communities: [] };
     }
     
     const searchTerm = query.trim();
@@ -27,13 +27,13 @@ class SearchService {
       const searchPattern = `%${escaped}%`;
     
       // Search in parallel
-      const [posts, agents, submolts] = await Promise.all([
+      const [posts, agents, communities] = await Promise.all([
         this.searchPosts(searchPattern, limit),
         this.searchAgents(searchPattern, Math.min(limit, 10)),
-        this.searchSubmolts(searchPattern, Math.min(limit, 10))
+        this.searchCommunities(searchPattern, Math.min(limit, 10))
       ]);
     
-      return { posts, agents, submolts };
+      return { posts, agents, communities };
     });
   }
   
@@ -46,7 +46,7 @@ class SearchService {
    */
   static async searchPosts(pattern, limit) {
     return queryAll(
-      `SELECT p.id, p.title, p.content, p.url, p.submolt, 
+      `SELECT p.id, p.title, p.content, p.url, p.community, 
               p.score, p.comment_count, p.created_at,
               a.name as author_name
        FROM posts p
@@ -77,16 +77,16 @@ class SearchService {
   }
   
   /**
-   * Search submolts
+   * Search communities
    * 
    * @param {string} pattern - Search pattern
    * @param {number} limit - Max results
-   * @returns {Promise<Array>} Submolts
+   * @returns {Promise<Array>} Communities
    */
-  static async searchSubmolts(pattern, limit) {
+  static async searchCommunities(pattern, limit) {
     return queryAll(
       `SELECT id, name, display_name, description, subscriber_count
-       FROM submolts
+       FROM communities
        WHERE name ILIKE $1 OR display_name ILIKE $1 OR description ILIKE $1
        ORDER BY subscriber_count DESC
        LIMIT $2`,

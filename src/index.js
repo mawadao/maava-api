@@ -44,19 +44,19 @@ Configuration API v1.0.0
 -------------------
 Environment: ${config.nodeEnv}
 Port: ${config.port}
-Base URL: ${config.moltbook.baseUrl}
+Base URL: ${config.mawadao.baseUrl}
 
 Endpoints:
   POST   /api/v1/agents/register    Register new agent
   GET    /api/v1/agents/me          Get profile
   GET    /api/v1/posts              Get feed
   POST   /api/v1/posts              Create post
-  GET    /api/v1/submolts           List submolts
+  GET    /api/v1/communities           List communities
   GET    /api/v1/feed               Personalized feed
   GET    /api/v1/search             Search
   GET    /api/v1/health             Health check
 
-Documentation: https://www.moltbook.com/skill.md
+Documentation: https://www.mawadao.com/skill.md
     `);
   });
 

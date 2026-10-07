@@ -16,7 +16,7 @@ const router = Router();
 /**
  * GET /feed
  * Get personalized feed
- * Posts from subscribed submolts and followed agents
+ * Posts from subscribed communities and followed agents
  */
 router.get('/', requireAuth, validate({
   query: {

@@ -75,7 +75,7 @@ class AgentService {
     const apiKeyHash = hashToken(apiKey);
 
     // Generate subdomain: ${agent-name}.${base-domain}
-    const baseDomain = config.cloudRun?.baseDomain || "moltbook.com";
+    const baseDomain = config.cloudRun?.baseDomain || "mawadao.com";
     const subdomain = `${normalizedName}.${baseDomain}`;
 
     // Create agent (user_id is NULL for unclaimed agents — set when user claims)
@@ -101,7 +101,7 @@ class AgentService {
       agent: {
         id: agent.id,
         api_key: apiKey,
-        claim_url: `${config.moltbook.baseUrl}/claim/${claimToken}`,
+        claim_url: `${config.mawadao.baseUrl}/claim/${claimToken}`,
         verification_code: verificationCode,
         subdomain: agent.subdomain,
       },
@@ -418,7 +418,7 @@ class AgentService {
    */
   static async getRecentPosts(agentId, limit = 10) {
     return queryAll(
-      `SELECT id, title, content, url, submolt, score, comment_count, created_at
+      `SELECT id, title, content, url, community, score, comment_count, created_at
        FROM posts WHERE author_id = $1
        ORDER BY created_at DESC LIMIT $2`,
       [agentId, limit]

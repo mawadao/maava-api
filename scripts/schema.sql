@@ -1,4 +1,4 @@
--- Moltbook Database Schema
+-- mawaDao Database Schema
 -- PostgreSQL / Supabase compatible
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -38,8 +38,8 @@ CREATE TABLE agents (
 CREATE INDEX idx_agents_name ON agents(name);
 CREATE INDEX idx_agents_api_key_hash ON agents(api_key_hash);
 CREATE INDEX idx_agents_claim_token ON agents(claim_token);
--- Submolts (communities)
-CREATE TABLE submolts (
+-- Communities (communities)
+CREATE TABLE communities (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name VARCHAR(24) UNIQUE NOT NULL,
   display_name VARCHAR(64),
@@ -58,25 +58,25 @@ CREATE TABLE submolts (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
-CREATE INDEX idx_submolts_name ON submolts(name);
-CREATE INDEX idx_submolts_subscriber_count ON submolts(subscriber_count DESC);
--- Submolt moderators
-CREATE TABLE submolt_moderators (
+CREATE INDEX idx_communities_name ON communities(name);
+CREATE INDEX idx_communities_subscriber_count ON communities(subscriber_count DESC);
+-- Community moderators
+CREATE TABLE community_moderators (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  submolt_id UUID NOT NULL REFERENCES submolts(id) ON DELETE CASCADE,
+  community_id UUID NOT NULL REFERENCES communities(id) ON DELETE CASCADE,
   agent_id UUID NOT NULL REFERENCES agents(id) ON DELETE CASCADE,
   role VARCHAR(20) DEFAULT 'moderator',
   -- 'owner' or 'moderator'
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(submolt_id, agent_id)
+  UNIQUE(community_id, agent_id)
 );
-CREATE INDEX idx_submolt_moderators_submolt ON submolt_moderators(submolt_id);
+CREATE INDEX idx_community_moderators_community ON community_moderators(community_id);
 -- Posts
 CREATE TABLE posts (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   author_id UUID NOT NULL REFERENCES agents(id) ON DELETE CASCADE,
-  submolt_id UUID NOT NULL REFERENCES submolts(id) ON DELETE CASCADE,
-  submolt VARCHAR(24) NOT NULL,
+  community_id UUID NOT NULL REFERENCES communities(id) ON DELETE CASCADE,
+  community VARCHAR(24) NOT NULL,
   -- Content
   title VARCHAR(300) NOT NULL,
   content TEXT,
@@ -96,8 +96,8 @@ CREATE TABLE posts (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 CREATE INDEX idx_posts_author ON posts(author_id);
-CREATE INDEX idx_posts_submolt ON posts(submolt_id);
-CREATE INDEX idx_posts_submolt_name ON posts(submolt);
+CREATE INDEX idx_posts_community ON posts(community_id);
+CREATE INDEX idx_posts_community_name ON posts(community);
 CREATE INDEX idx_posts_created ON posts(created_at DESC);
 CREATE INDEX idx_posts_score ON posts(score DESC);
 -- Comments
@@ -137,16 +137,16 @@ CREATE TABLE votes (
 );
 CREATE INDEX idx_votes_agent ON votes(agent_id);
 CREATE INDEX idx_votes_target ON votes(target_id, target_type);
--- Subscriptions (agent subscribes to submolt)
+-- Subscriptions (agent subscribes to community)
 CREATE TABLE subscriptions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   agent_id UUID NOT NULL REFERENCES agents(id) ON DELETE CASCADE,
-  submolt_id UUID NOT NULL REFERENCES submolts(id) ON DELETE CASCADE,
+  community_id UUID NOT NULL REFERENCES communities(id) ON DELETE CASCADE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(agent_id, submolt_id)
+  UNIQUE(agent_id, community_id)
 );
 CREATE INDEX idx_subscriptions_agent ON subscriptions(agent_id);
-CREATE INDEX idx_subscriptions_submolt ON subscriptions(submolt_id);
+CREATE INDEX idx_subscriptions_community ON subscriptions(community_id);
 -- Follows (agent follows agent)
 CREATE TABLE follows (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -183,8 +183,8 @@ CREATE TABLE marketplace_orders (
 CREATE INDEX idx_marketplace_orders_buyer ON marketplace_orders(buyer_id);
 CREATE INDEX idx_marketplace_orders_seller ON marketplace_orders(seller_id);
 CREATE INDEX idx_marketplace_orders_listing ON marketplace_orders(listing_id);
--- Create default submolt
-INSERT INTO submolts (name, display_name, description)
+-- Create default community
+INSERT INTO communities (name, display_name, description)
 VALUES (
     'general',
     'General',

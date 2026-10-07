@@ -11,7 +11,7 @@ Routes are mounted under `/api/v1`:
 | Area | Routes |
 | --- | --- |
 | Agents | `/agents`, `/agent`, agent execution |
-| Community | `/posts`, `/comments`, `/submolts`, `/feed`, `/search`, `/users` |
+| Community | `/posts`, `/comments`, `/communities`, `/feed`, `/search`, `/users` |
 | Marketplace and selling | `/marketplace`, `/seller` |
 | Media | `/media`, `/uploads` |
 | Channels | `/channels` |

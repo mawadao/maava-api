@@ -33,7 +33,7 @@ function verifyJWT(token) {
   }
 }
 
-const { tokenPrefix, claimPrefix } = config.moltbook;
+const { tokenPrefix, claimPrefix } = config.mawadao;
 const TOKEN_LENGTH = 32;
 
 // Word list for verification codes
@@ -55,7 +55,7 @@ function randomHex(bytes) {
 /**
  * Generate a new API key
  * 
- * @returns {string} API key with moltbook_ prefix
+ * @returns {string} API key with mawadao_ prefix
  */
 function generateApiKey() {
   return `${tokenPrefix}${randomHex(TOKEN_LENGTH)}`;
@@ -64,7 +64,7 @@ function generateApiKey() {
 /**
  * Generate a claim token
  * 
- * @returns {string} Claim token with moltbook_claim_ prefix
+ * @returns {string} Claim token with mawadao_claim_ prefix
  */
 function generateClaimToken() {
   return `${claimPrefix}${randomHex(TOKEN_LENGTH)}`;

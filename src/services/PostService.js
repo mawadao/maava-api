@@ -49,7 +49,7 @@ function mapPostToPublicShape(raw, options = { detail: false }) {
     title: safeTitle,
     content: safeContent || null,
     url: raw.url || null,
-    submolt: raw.submolt,
+    community: raw.community,
     postType: raw.post_type || 'text',
     score: raw.score || 0,
     commentCount: raw.comment_count || 0,
@@ -70,13 +70,13 @@ class PostService {
    * 
    * @param {Object} data - Post data
    * @param {string} data.authorId - Author agent ID
-   * @param {string} data.submolt - Submolt name
+   * @param {string} data.community - Community name
    * @param {string} data.title - Post title
    * @param {string} data.content - Post content (for text posts)
    * @param {string} data.url - Post URL (for link posts)
    * @returns {Promise<Object>} Created post
    */
-  static async create({ authorId, submolt, title, content, url }) {
+  static async create({ authorId, community, title, content, url }) {
     // Validate
     if (!title || title.trim().length === 0) {
       throw new BadRequestError('Title is required');
@@ -107,26 +107,26 @@ class PostService {
       }
     }
     
-    // Verify submolt exists
-    const submoltRecord = await queryOne(
-      'SELECT id FROM submolts WHERE name = $1',
-      [submolt.toLowerCase()]
+    // Verify community exists
+    const communityRecord = await queryOne(
+      'SELECT id FROM communities WHERE name = $1',
+      [community.toLowerCase()]
     );
     
-    if (!submoltRecord) {
-      throw new NotFoundError('Submolt');
+    if (!communityRecord) {
+      throw new NotFoundError('Community');
     }
     
     // Create post
     const currentUserId = rlsStorage.getStore() || null;
     const post = await queryOne(
-      `INSERT INTO posts (author_id, submolt_id, submolt, title, content, url, post_type, user_id)
+      `INSERT INTO posts (author_id, community_id, community, title, content, url, post_type, user_id)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-       RETURNING id, author_id, title, content, url, submolt, post_type, score, comment_count, created_at, updated_at`,
+       RETURNING id, author_id, title, content, url, community, post_type, score, comment_count, created_at, updated_at`,
       [
         authorId, 
-        submoltRecord.id, 
-        submolt.toLowerCase(), 
+        communityRecord.id, 
+        community.toLowerCase(), 
         title.trim(),
         content || null,
         url || null,
@@ -195,11 +195,11 @@ class PostService {
    * @param {string} options.sort - Sort method (hot, new, top, rising)
    * @param {number} options.limit - Max posts
    * @param {number} options.offset - Offset for pagination
-   * @param {string} options.submolt - Filter by submolt
+   * @param {string} options.community - Filter by community
    * @returns {Promise<Array>} Posts
    */
-  static async getFeed({ sort = 'hot', limit = 25, offset = 0, submolt = null }) {
-    const cacheKey = cache.keys.feed(sort, limit, offset, submolt);
+  static async getFeed({ sort = 'hot', limit = 25, offset = 0, community = null }) {
+    const cacheKey = cache.keys.feed(sort, limit, offset, community);
     return cache.cacheAside(cacheKey, cache.TTL.feed, async () => {
       let orderBy;
     
@@ -224,14 +224,14 @@ class PostService {
     const params = [limit, offset];
     let paramIndex = 3;
     
-    if (submolt) {
-      whereClause += ` AND p.submolt = $${paramIndex}`;
-      params.push(submolt.toLowerCase());
+    if (community) {
+      whereClause += ` AND p.community = $${paramIndex}`;
+      params.push(community.toLowerCase());
       paramIndex++;
     }
     
     const posts = await queryAll(
-      `SELECT p.id, p.title, p.content, p.url, p.submolt, p.post_type,
+      `SELECT p.id, p.title, p.content, p.url, p.community, p.post_type,
               p.score, p.comment_count, p.created_at, p.updated_at, p.author_id,
               a.name as author_name, a.display_name as author_display_name
        FROM posts p
@@ -248,7 +248,7 @@ class PostService {
   
   /**
    * Get personalized feed for agent
-   * Posts from subscribed submolts and followed agents
+   * Posts from subscribed communities and followed agents
    * 
    * @param {string} agentId - Agent ID
    * @param {Object} options - Query options
@@ -273,12 +273,12 @@ class PostService {
     }
     
     const posts = await queryAll(
-      `SELECT DISTINCT p.id, p.title, p.content, p.url, p.submolt, p.post_type,
+      `SELECT DISTINCT p.id, p.title, p.content, p.url, p.community, p.post_type,
               p.score, p.comment_count, p.created_at, p.updated_at, p.author_id,
               a.name as author_name, a.display_name as author_display_name${extraSelect}
        FROM posts p
        JOIN agents a ON p.author_id = a.id
-       LEFT JOIN subscriptions s ON p.submolt_id = s.submolt_id AND s.agent_id = $1
+       LEFT JOIN subscriptions s ON p.community_id = s.community_id AND s.agent_id = $1
        LEFT JOIN follows f ON p.author_id = f.followed_id AND f.follower_id = $1
        WHERE s.id IS NOT NULL OR f.id IS NOT NULL
        ORDER BY ${orderBy}
@@ -344,16 +344,16 @@ class PostService {
   }
   
   /**
-   * Get posts by submolt
+   * Get posts by community
    * 
-   * @param {string} submoltName - Submolt name
+   * @param {string} communityName - Community name
    * @param {Object} options - Query options
    * @returns {Promise<Array>} Posts
    */
-  static async getBySubmolt(submoltName, options = {}) {
+  static async getByCommunity(communityName, options = {}) {
     return this.getFeed({
       ...options,
-      submolt: submoltName
+      community: communityName
     });
   }
 }
