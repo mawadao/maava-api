@@ -166,7 +166,7 @@ class StorageService {
   /**
    * Create a per-tenant GCS bucket.
    *
-   * @param {string} subdomain — Tenant subdomain (e.g. "raj")
+   * @param {string} subdomain — Tenant subdomain (e.g. "alice")
    * @param {string} region    — GCS location (default from config)
    * @returns {Promise<{bucketName: string, created: boolean}>}
    */
