@@ -17,6 +17,7 @@ function verifyJWT(token) {
   if (parts.length !== 3) return null;
   const [header, payload, signature] = parts;
   const secret = config.jwtSecret;
+  if (!secret) return null; // never verify against an empty key
   const expectedSig = crypto
     .createHmac('sha256', secret)
     .update(`${header}.${payload}`)

@@ -19,6 +19,7 @@ function base64UrlDecode(str) {
 }
 
 function verifyHS256(token, secret) {
+  if (!secret) return null; // never verify against an empty key
   const parts = token.split(".");
   if (parts.length !== 3) return null;
 

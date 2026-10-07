@@ -26,8 +26,7 @@ const config = {
   },
 
   // Security
-  jwtSecret:
-    process.env.JWT_SECRET || "development-secret-change-in-production",
+  jwtSecret: process.env.JWT_SECRET || "",
 
   // Internal service-to-service authentication (mawaDao Agent plugin → mawaDao API)
   internalApiSecret: process.env.INTERNAL_API_SECRET || "",
