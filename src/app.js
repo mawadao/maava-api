@@ -18,7 +18,7 @@ const app = express();
 // Security middleware
 app.use(helmet());
 
-// CORS (unified auth: mawaDao + mawaDao Agent share same tokens)
+// CORS (unified auth: mawaDao + mawa share same tokens)
 // Origins from config.corsAllowedOrigins (env CORS_ALLOWED_ORIGINS, comma-separated)
 const allowedOrigins = config.corsAllowedOrigins;
 app.use(

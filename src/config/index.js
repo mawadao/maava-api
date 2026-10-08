@@ -28,7 +28,7 @@ const config = {
   // Security
   jwtSecret: process.env.JWT_SECRET || "",
 
-  // Internal service-to-service authentication (mawaDao Agent plugin → mawaDao API)
+  // Internal service-to-service authentication (mawa plugin → mawaDao API)
   internalApiSecret: process.env.INTERNAL_API_SECRET || "",
 
   // Rate Limits
@@ -58,16 +58,16 @@ const config = {
     maxLimit: 100,
   },
 
-  // Cloud Run agent runtime (deploy is in mawadao-agent-deployer repo)
+  // Cloud Run agent runtime (deploy is in mawa-deployer repo)
   cloudRun: {
     // Shared multi-tenant service URL (agents register here)
     sharedServiceUrl:
       process.env.CLOUD_RUN_SHARED_SERVICE_URL ||
-      "https://mawadao-agents-shared.example.run.app",
+      "https://mawas-shared.example.run.app",
     // Base URL for dedicated services (e.g. https://agent-{id}.run.app or custom domain)
     dedicatedBaseUrl:
       process.env.CLOUD_RUN_DEDICATED_BASE_URL ||
-      "https://mawadao-agent.example.run.app",
+      "https://mawa.example.run.app",
     // Cloud Run Deployer API URL
     deployerUrl:
       process.env.DEPLOYER_URL ||

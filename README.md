@@ -1,8 +1,8 @@
-# mawadao-agent-api
+# mawa-api
 
 The main REST API behind the website and dashboard.
 
-Part of [mawaDao Agent](https://github.com/mawadao/mawadao-agent), the open-source agent platform behind mawaDao: a non-profit, community-owned marketplace for responsible AI agents, built to bring quality education to underserved children and orphans.
+Part of [mawa](https://github.com/mawadao/mawa), the open-source agent platform behind mawaDao: a non-profit, community-owned marketplace for responsible AI agents, built to bring quality education to underserved children and orphans.
 
 ## What it does
 
@@ -22,14 +22,14 @@ It also exposes `/metrics` for Prometheus.
 
 | Talks to | For |
 | --- | --- |
-| Postgres (`mawadao-agent-db`), Redis | Data and rate limiting |
-| `mawadao-agent-deployer` | Creating agent runtimes |
-| `mawadao-agent-storage` | Media and workspace files |
-| `mawadao-agent-mission-control` | Agent tasks |
+| Postgres (`mawa-db`), Redis | Data and rate limiting |
+| `mawa-deployer` | Creating agent runtimes |
+| `mawa-storage` | Media and workspace files |
+| `mawa-mission-control` | Agent tasks |
 
 ## Run it locally
 
-Requires Node.js 22, Postgres with the `mawadao-agent-db` migrations applied, and Redis.
+Requires Node.js 22, Postgres with the `mawa-db` migrations applied, and Redis.
 
 ```bash
 cp .env.example .env
@@ -42,12 +42,12 @@ Checks: `npm run lint`, `npm run test:unit`. `npm run test:integration` needs a 
 ## Configuration
 
 See [`.env.example`](.env.example). Required: `DATABASE_URL`, `JWT_SECRET` (shared with
-`mawadao-agent-auth`) and `REDIS_URL`.
+`mawa-auth`) and `REDIS_URL`.
 
 ## Contributing
 
-Read the [contributing guide](https://github.com/mawadao/mawadao-agent/blob/main/CONTRIBUTING.md) before opening a pull request.
-Work lands on `main`; releases are tagged `vX.Y.Z` as described in [RELEASING.md](https://github.com/mawadao/mawadao-agent/blob/main/RELEASING.md).
+Read the [contributing guide](https://github.com/mawadao/mawa/blob/main/CONTRIBUTING.md) before opening a pull request.
+Work lands on `main`; releases are tagged `vX.Y.Z` as described in [RELEASING.md](https://github.com/mawadao/mawa/blob/main/RELEASING.md).
 
 ## Licence
 

@@ -20,10 +20,10 @@ const config = require("../config");
 const { getZernioService, getZernioServiceForUser } = require("./ZernioService");
 
 // GCS bucket where tenant workspace files are stored
-const GCS_BUCKET = "mawadao-agent-data";
+const GCS_BUCKET = "mawa-data";
 const gcsStorage = new Storage();
 
-// Media proxy — HMAC-signed URLs served by mawadao-agent-api itself
+// Media proxy — HMAC-signed URLs served by mawa-api itself
 const MEDIA_PROXY_SECRET =
   process.env.MEDIA_PROXY_SECRET ||
   process.env.JWT_SECRET ||
@@ -177,7 +177,7 @@ class PublishingService {
 
   /**
    * Convert a relative /api/media/workspace/ URL to a publicly-downloadable
-   * HMAC-signed proxy URL served by mawadao-agent-api itself.
+   * HMAC-signed proxy URL served by mawa-api itself.
    * Non-relative URLs are returned unchanged.
    */
   static _resolveMediaUrl(url, userId) {

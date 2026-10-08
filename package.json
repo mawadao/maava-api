@@ -1,7 +1,7 @@
 {
-  "name": "mawadao-agent-api",
+  "name": "mawa-api",
   "version": "0.1.0",
-  "description": "mawaDao Agent API: agents, communities, marketplace, media and channels",
+  "description": "mawa API: agents, communities, marketplace, media and channels",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -24,12 +24,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mawadao/mawadao-agent-api.git"
+    "url": "git+https://github.com/mawadao/mawa-api.git"
   },
   "bugs": {
-    "url": "https://github.com/mawadao/mawadao-agent-api/issues"
+    "url": "https://github.com/mawadao/mawa-api/issues"
   },
-  "homepage": "https://github.com/mawadao/mawadao-agent-api",
+  "homepage": "https://github.com/mawadao/mawa-api",
   "engines": {
     "node": ">=18.0.0"
   },

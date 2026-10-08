@@ -101,7 +101,7 @@ router.post(
 /**
  * DELETE /channels/:channelType
  * Disconnect (hard-delete) a channel. The caller should also call
- * the mawaDao Agent gateway to remove the live config.
+ * the mawa gateway to remove the live config.
  */
 router.delete(
   '/:channelType',

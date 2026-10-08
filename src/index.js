@@ -14,7 +14,7 @@ const ScheduledDeliveryWorker = require('./workers/ScheduledDeliveryWorker');
 let server;
 
 async function start() {
-  console.log('Starting mawadao-agent-api...');
+  console.log('Starting mawa-api...');
 
   if (!config.jwtSecret) {
     console.error('JWT_SECRET must be set; refusing to start without it.');

@@ -267,7 +267,7 @@ async function optionalUserAuth(req, res, next) {
  * Validates `INTERNAL_API_SECRET` from the `Authorization: Bearer <secret>` header
  * and impersonates the user specified in the `X-User-ID` header.
  *
- * This enables the mawaDao Agent plugin (and other internal services) to call
+ * This enables the mawa plugin (and other internal services) to call
  * seller endpoints on behalf of a specific user — without needing that user's JWT.
  *
  * Security:

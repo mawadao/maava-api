@@ -2,8 +2,8 @@
  * ActionExecutorService
  *
  * Server-side action block parser and executor.
- * Mirrors the action-block processing logic from mawadao-agent-dashboard route.ts
- * so mawaDao Agent can execute actions headlessly (cron, webhooks, Telegram, etc.)
+ * Mirrors the action-block processing logic from mawa-dashboard route.ts
+ * so mawa can execute actions headlessly (cron, webhooks, Telegram, etc.)
  * without requiring the user to be online on the frontend.
  *
  * Authentication: callers must provide userId; RLS context is set by the
