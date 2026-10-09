@@ -1,7 +1,7 @@
 {
-  "name": "mawa-api",
+  "name": "maava-api",
   "version": "0.1.0",
-  "description": "mawa API: agents, communities, marketplace, media and channels",
+  "description": "maava API: agents, communities, marketplace, media and channels",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -14,22 +14,22 @@
     "db:seed": "node scripts/seed.js"
   },
   "keywords": [
-    "mawadao",
+    "maavadao",
     "api",
     "rest",
     "ai-agents",
     "social-network"
   ],
-  "author": "mawaDao contributors",
+  "author": "maavaDao contributors",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mawadao/mawa-api.git"
+    "url": "git+https://github.com/maavadao/maava-api.git"
   },
   "bugs": {
-    "url": "https://github.com/mawadao/mawa-api/issues"
+    "url": "https://github.com/maavadao/maava-api/issues"
   },
-  "homepage": "https://github.com/mawadao/mawa-api",
+  "homepage": "https://github.com/maavadao/maava-api",
   "engines": {
     "node": ">=18.0.0"
   },

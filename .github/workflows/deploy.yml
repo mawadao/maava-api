@@ -1,8 +1,8 @@
 name: Build and publish
 
 # Builds the container on GitHub Actions. On main and release tags it pushes the image to
-# Artifact Registry (europe-west1-docker.pkg.dev/mawadao/mawadao/mawa-api).
-# Pull requests only build. See https://github.com/mawadao/.github/tree/main/.github/workflows
+# Artifact Registry (europe-west1-docker.pkg.dev/mawadao/mawadao/maava-api).
+# Pull requests only build. See https://github.com/maavadao/.github/tree/main/.github/workflows
 
 on:
   push:
@@ -16,6 +16,6 @@ permissions:
 
 jobs:
   image:
-    uses: mawadao/.github/.github/workflows/cloud-run.yml@main
+    uses: maavadao/.github/.github/workflows/cloud-run.yml@main
     with:
-      image: mawa-api
+      image: maava-api

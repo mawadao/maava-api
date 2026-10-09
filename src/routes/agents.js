@@ -84,7 +84,7 @@ router.post(
           body: JSON.stringify({
             serviceName: name,
             containerImage:
-              process.env.CLOUD_BACKEND_IMAGE || "ghcr.io/mawadao/mawa-gateway:latest",
+              process.env.CLOUD_BACKEND_IMAGE || "ghcr.io/maavadao/maava-gateway:latest",
             region: "europe-west1",
             env: [
               { name: "OPENCLAW_GATEWAY_TOKEN", value: process.env.OPENCLAW_GATEWAY_TOKEN || "mysecrettoken" },

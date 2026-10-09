@@ -75,7 +75,7 @@ class AgentService {
     const apiKeyHash = hashToken(apiKey);
 
     // Generate subdomain: ${agent-name}.${base-domain}
-    const baseDomain = config.cloudRun?.baseDomain || "mawadao.com";
+    const baseDomain = config.cloudRun?.baseDomain || "maavadao.com";
     const subdomain = `${normalizedName}.${baseDomain}`;
 
     // Create agent (user_id is NULL for unclaimed agents — set when user claims)
@@ -101,7 +101,7 @@ class AgentService {
       agent: {
         id: agent.id,
         api_key: apiKey,
-        claim_url: `${config.mawadao.baseUrl}/claim/${claimToken}`,
+        claim_url: `${config.maavadao.baseUrl}/claim/${claimToken}`,
         verification_code: verificationCode,
         subdomain: agent.subdomain,
       },

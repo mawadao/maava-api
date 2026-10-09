@@ -28,7 +28,7 @@ const config = {
   // Security
   jwtSecret: process.env.JWT_SECRET || "",
 
-  // Internal service-to-service authentication (mawa plugin → mawaDao API)
+  // Internal service-to-service authentication (maava plugin → maavaDao API)
   internalApiSecret: process.env.INTERNAL_API_SECRET || "",
 
   // Rate Limits
@@ -45,11 +45,11 @@ const config = {
     o.trim()
   ),
 
-  // mawaDao specific
-  mawadao: {
-    tokenPrefix: "mawadao_",
-    claimPrefix: "mawadao_claim_",
-    baseUrl: process.env.BASE_URL || "https://www.mawadao.com",
+  // maavaDao specific
+  maavadao: {
+    tokenPrefix: "maavadao_",
+    claimPrefix: "maavadao_claim_",
+    baseUrl: process.env.BASE_URL || "https://www.maavadao.com",
   },
 
   // Pagination defaults
@@ -58,32 +58,32 @@ const config = {
     maxLimit: 100,
   },
 
-  // Cloud Run agent runtime (deploy is in mawa-deployer repo)
+  // Cloud Run agent runtime (deploy is in maava-deployer repo)
   cloudRun: {
     // Shared multi-tenant service URL (agents register here)
     sharedServiceUrl:
       process.env.CLOUD_RUN_SHARED_SERVICE_URL ||
-      "https://mawas-shared.example.run.app",
+      "https://maavas-shared.example.run.app",
     // Base URL for dedicated services (e.g. https://agent-{id}.run.app or custom domain)
     dedicatedBaseUrl:
       process.env.CLOUD_RUN_DEDICATED_BASE_URL ||
-      "https://mawa.example.run.app",
+      "https://maava.example.run.app",
     // Cloud Run Deployer API URL
     deployerUrl:
       process.env.DEPLOYER_URL ||
       "http://localhost:3009/api/v1/cloud-run/deploy",
-    // Base domain for agent subdomains (e.g. "mawadao.com" or "agents.mawadao.com")
+    // Base domain for agent subdomains (e.g. "maavadao.com" or "agents.maavadao.com")
     baseDomain:
       process.env.AGENT_BASE_DOMAIN ||
-      "mawadao.com",
+      "maavadao.com",
   },
 
   // Google Cloud Storage — platform-level file uploads (avatars, post images, etc.)
   storage: {
     projectId: process.env.GCP_PROJECT_ID || "mawadao",
-    bucket: process.env.GCS_PLATFORM_BUCKET || "mawadao-platform-assets",
-    // Per-tenant bucket prefix (e.g. "mawadao-user-alice")
-    tenantBucketPrefix: process.env.GCS_TENANT_BUCKET_PREFIX || "mawadao-user",
+    bucket: process.env.GCS_PLATFORM_BUCKET || "maavadao-platform-assets",
+    // Per-tenant bucket prefix (e.g. "maavadao-user-alice")
+    tenantBucketPrefix: process.env.GCS_TENANT_BUCKET_PREFIX || "maavadao-user",
     // Max upload size in bytes (default 10 MB)
     maxFileSize: parseInt(process.env.MAX_UPLOAD_SIZE, 10) || 10 * 1024 * 1024,
     // CDN base URL for serving assets (optional — falls back to GCS public URL)
@@ -94,8 +94,8 @@ const config = {
   zernio: {
     apiKey: process.env.ZERNIO_API_KEY || "",
     baseUrl: (process.env.ZERNIO_API_URL || "https://zernio.com/api/v1").replace(/\/+$/, ""),
-    // Callback URL mawaDao hands to Zernio during OAuth connect flows
-    callbackUrl: process.env.ZERNIO_CALLBACK_URL || "https://agent.mawadao.com/seller/social-accounts/oauth-callback",
+    // Callback URL maavaDao hands to Zernio during OAuth connect flows
+    callbackUrl: process.env.ZERNIO_CALLBACK_URL || "https://agent.maavadao.com/seller/social-accounts/oauth-callback",
   },
 };
 

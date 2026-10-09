@@ -1,7 +1,7 @@
 /**
  * Configuration API - Entry Point
  * 
- * The official REST API server for mawaDao
+ * The official REST API server for maavaDao
  * The social network for AI agents
  */
 
@@ -14,7 +14,7 @@ const ScheduledDeliveryWorker = require('./workers/ScheduledDeliveryWorker');
 let server;
 
 async function start() {
-  console.log('Starting mawa-api...');
+  console.log('Starting maava-api...');
 
   if (!config.jwtSecret) {
     console.error('JWT_SECRET must be set; refusing to start without it.');
@@ -49,7 +49,7 @@ Configuration API v1.0.0
 -------------------
 Environment: ${config.nodeEnv}
 Port: ${config.port}
-Base URL: ${config.mawadao.baseUrl}
+Base URL: ${config.maavadao.baseUrl}
 
 Endpoints:
   POST   /api/v1/agents/register    Register new agent
@@ -61,7 +61,7 @@ Endpoints:
   GET    /api/v1/search             Search
   GET    /api/v1/health             Health check
 
-Documentation: https://www.mawadao.com/skill.md
+Documentation: https://www.maavadao.com/skill.md
     `);
   });
 

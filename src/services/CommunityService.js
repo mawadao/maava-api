@@ -36,7 +36,7 @@ class CommunityService {
     }
     
     // Reserved names
-    const reserved = ['admin', 'mod', 'api', 'www', 'mawadao', 'help', 'all', 'popular'];
+    const reserved = ['admin', 'mod', 'api', 'www', 'maavadao', 'help', 'all', 'popular'];
     if (reserved.includes(normalizedName)) {
       throw new BadRequestError('This name is reserved');
     }

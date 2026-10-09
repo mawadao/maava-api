@@ -10,7 +10,7 @@ const config = require("../config");
 const { UnauthorizedError, ForbiddenError } = require("../utils/errors");
 
 // Inline minimal JWT validation (HS256 only) to avoid adding jsonwebtoken dependency.
-// mawaDao already has jwtSecret in config.
+// maavaDao already has jwtSecret in config.
 const crypto = require("crypto");
 
 function base64UrlDecode(str) {
@@ -43,7 +43,7 @@ function verifyHS256(token, secret) {
   if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) return null;
 
   // Validate issuer
-  if (payload.iss && payload.iss !== "mawadao-auth") return null;
+  if (payload.iss && payload.iss !== "maavadao-auth") return null;
 
   return payload;
 }
@@ -80,8 +80,8 @@ async function requireJWTAuth(req, res, next) {
       );
     }
 
-    // If token looks like an API key (mawadao_ prefix), reject — use requireAuth instead
-    if (token.startsWith(config.mawadao.tokenPrefix)) {
+    // If token looks like an API key (maavadao_ prefix), reject — use requireAuth instead
+    if (token.startsWith(config.maavadao.tokenPrefix)) {
       throw new UnauthorizedError(
         "Expected JWT token, not API key",
         "Use JWT authentication for this endpoint"
@@ -121,7 +121,7 @@ async function optionalJWTAuth(req, res, next) {
       token = authHeader.slice(7);
     }
 
-    if (!token || token.startsWith(config.mawadao.tokenPrefix)) {
+    if (!token || token.startsWith(config.maavadao.tokenPrefix)) {
       req.jwtUser = null;
       return next();
     }

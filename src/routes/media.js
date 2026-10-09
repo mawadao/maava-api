@@ -2,9 +2,9 @@
  * Media proxy route — serves GCS files via HMAC-signed, time-limited URLs.
  *
  * Used by PublishingService to give Zernio (and other external consumers)
- * a publicly-downloadable URL.  Files are fetched through mawa-storage
+ * a publicly-downloadable URL.  Files are fetched through maava-storage
  * (which has the GCS Storage Object Viewer role) rather than directly
- * from GCS — so mawa-api's own SA doesn't need storage permissions.
+ * from GCS — so maava-api's own SA doesn't need storage permissions.
  */
 
 const { Router } = require("express");
@@ -13,7 +13,7 @@ const crypto = require("crypto");
 const router = Router();
 
 const STORAGE_URL = process.env.STORAGE_URL || "";
-const SHARED_BUCKET = process.env.GCS_SHARED_BUCKET || "mawa-data";
+const SHARED_BUCKET = process.env.GCS_SHARED_BUCKET || "maava-data";
 const HMAC_SECRET =
   process.env.MEDIA_PROXY_SECRET ||
   process.env.JWT_SECRET ||
@@ -29,7 +29,7 @@ const MIME_MAP = {
 };
 
 /**
- * Get auth headers for mawa-storage (IAM identity token on Cloud Run).
+ * Get auth headers for maava-storage (IAM identity token on Cloud Run).
  */
 async function bmHeaders() {
   const h = {};
@@ -55,7 +55,7 @@ async function bmHeaders() {
  * GET /api/v1/media/serve?path=<gcsPath>&exp=<timestamp>&sig=<hmac>
  *
  * Validates HMAC signature and expiry, then fetches the file from
- * mawa-storage and streams it to the caller.
+ * maava-storage and streams it to the caller.
  * No auth middleware — must be publicly reachable for Zernio to download.
  */
 router.get("/serve", async (req, res) => {
@@ -95,7 +95,7 @@ router.get("/serve", async (req, res) => {
     });
 
     if (!bmRes.ok) {
-      console.error(`[media-serve] mawa-storage responded ${bmRes.status} for ${gcsPath}`);
+      console.error(`[media-serve] maava-storage responded ${bmRes.status} for ${gcsPath}`);
       const status = bmRes.status === 404 ? 404 : 502;
       return res.status(status).json({ error: status === 404 ? "File not found" : "Failed to fetch file" });
     }
@@ -109,7 +109,7 @@ router.get("/serve", async (req, res) => {
       res.setHeader("Content-Length", bmRes.headers.get("content-length"));
     }
 
-    // Stream from mawa-storage → caller
+    // Stream from maava-storage → caller
     const reader = bmRes.body.getReader();
     const pump = async () => {
       while (true) {

@@ -8,4 +8,4 @@ All notable changes to this component are recorded here. The format follows
 
 ### Added
 
-- Imported from Barrsa and rebranded as part of mawa.
+- Imported from Barrsa and rebranded as part of maava.

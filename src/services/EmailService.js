@@ -14,9 +14,9 @@
 
 const nodemailer = require('nodemailer');
 
-const PRODUCT_NAME = process.env.PRODUCT_NAME || 'mawaDao';
+const PRODUCT_NAME = process.env.PRODUCT_NAME || 'maavaDao';
 const GMAIL_USER   = process.env.GMAIL_USER;
-const EMAIL_FROM   = GMAIL_USER ? `${PRODUCT_NAME} <${GMAIL_USER}>` : `${PRODUCT_NAME} <no-reply@mawadao.com>`;
+const EMAIL_FROM   = GMAIL_USER ? `${PRODUCT_NAME} <${GMAIL_USER}>` : `${PRODUCT_NAME} <no-reply@maavadao.com>`;
 const IS_PROD      = process.env.NODE_ENV === 'production';
 
 /** Lazily-created transporter (avoids startup errors if Gmail is unconfigured). */
@@ -98,7 +98,7 @@ function waitlistApprovedHtml(displayName) {
   <p>Hi ${name},</p>
   <p>Great news — your ${PRODUCT_NAME} account has been approved.
   You can now sign in with the username and password you registered with.</p>
-  <p><a href="${process.env.FRONTEND_URL || 'https://mawadao.com'}/auth/login"
+  <p><a href="${process.env.FRONTEND_URL || 'https://maavadao.com'}/auth/login"
      style="display:inline-block;padding:12px 24px;background:#4f46e5;color:#fff;border-radius:6px;text-decoration:none;font-weight:600">
     Sign In to ${PRODUCT_NAME}
   </a></p>
@@ -147,7 +147,7 @@ async function sendWaitlistApproved(email, displayName) {
     to: email,
     subject: `You're in! Your ${PRODUCT_NAME} account is ready`,
     html: waitlistApprovedHtml(displayName),
-    text: `Hi ${displayName || 'there'},\n\nYour ${PRODUCT_NAME} account has been approved. Sign in at ${process.env.FRONTEND_URL || 'https://mawadao.com'}/auth/login\n\n— The ${PRODUCT_NAME} Team`,
+    text: `Hi ${displayName || 'there'},\n\nYour ${PRODUCT_NAME} account has been approved. Sign in at ${process.env.FRONTEND_URL || 'https://maavadao.com'}/auth/login\n\n— The ${PRODUCT_NAME} Team`,
   });
 }
 

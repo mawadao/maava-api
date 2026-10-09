@@ -74,13 +74,13 @@ async function runTests() {
 describe('Auth Utils', () => {
   test('generateApiKey creates valid key', () => {
     const key = generateApiKey();
-    assert(key.startsWith('mawadao_'), 'Should have correct prefix');
-    assertEqual(key.length, 'mawadao_'.length + 64, 'Should have correct length');
+    assert(key.startsWith('maavadao_'), 'Should have correct prefix');
+    assertEqual(key.length, 'maavadao_'.length + 64, 'Should have correct length');
   });
 
   test('generateClaimToken creates valid token', () => {
     const token = generateClaimToken();
-    assert(token.startsWith('mawadao_claim_'), 'Should have correct prefix');
+    assert(token.startsWith('maavadao_claim_'), 'Should have correct prefix');
   });
 
   test('generateVerificationCode has correct format', () => {
@@ -96,12 +96,12 @@ describe('Auth Utils', () => {
   test('validateApiKey rejects invalid key', () => {
     assert(!validateApiKey('invalid'), 'Should reject invalid');
     assert(!validateApiKey(null), 'Should reject null');
-    assert(!validateApiKey('mawadao_short'), 'Should reject short key');
+    assert(!validateApiKey('maavadao_short'), 'Should reject short key');
   });
 
   test('extractToken extracts from Bearer header', () => {
-    const token = extractToken('Bearer mawadao_test123');
-    assertEqual(token, 'mawadao_test123');
+    const token = extractToken('Bearer maavadao_test123');
+    assertEqual(token, 'maavadao_test123');
   });
 
   test('extractToken returns null for invalid header', () => {
@@ -154,7 +154,7 @@ describe('Config', () => {
   test('config loads without error', () => {
     const config = require('../src/config');
     assert(config.port, 'Should have port');
-    assert(config.mawadao.tokenPrefix, 'Should have token prefix');
+    assert(config.maavadao.tokenPrefix, 'Should have token prefix');
   });
 });
 

@@ -2,8 +2,8 @@
  * ActionExecutorService
  *
  * Server-side action block parser and executor.
- * Mirrors the action-block processing logic from mawa-dashboard route.ts
- * so mawa can execute actions headlessly (cron, webhooks, Telegram, etc.)
+ * Mirrors the action-block processing logic from maava-dashboard route.ts
+ * so maava can execute actions headlessly (cron, webhooks, Telegram, etc.)
  * without requiring the user to be online on the frontend.
  *
  * Authentication: callers must provide userId; RLS context is set by the
@@ -927,7 +927,7 @@ class ActionExecutorService {
         // Also check dedicated tables
         const slackRows = await queryAll(
           `SELECT slack_team_name, slack_bot_token, slack_channel_id FROM slack_connections
-           WHERE mawadao_user_id = $1 AND is_active = true`,
+           WHERE maavadao_user_id = $1 AND is_active = true`,
           [userId]
         );
 
@@ -973,7 +973,7 @@ class ActionExecutorService {
           // Check telegram_channel_links table
           const tgRows = await queryAll(
             `SELECT telegram_chat_id FROM telegram_channel_links
-             WHERE mawadao_user_id = $1 AND is_active = true`,
+             WHERE maavadao_user_id = $1 AND is_active = true`,
             [userId]
           ).catch(() => []);
 
@@ -1085,7 +1085,7 @@ class ActionExecutorService {
         try {
           const slackRows = await queryAll(
             `SELECT 1 FROM slack_connections
-              WHERE mawadao_user_id = $1 AND is_active = true LIMIT 1`,
+              WHERE maavadao_user_id = $1 AND is_active = true LIMIT 1`,
             [userId]
           );
           if (slackRows.length) connected.add("slack");
@@ -1093,7 +1093,7 @@ class ActionExecutorService {
         try {
           const tgRows = await queryAll(
             `SELECT 1 FROM telegram_channel_links
-              WHERE mawadao_user_id = $1 AND is_active = true LIMIT 1`,
+              WHERE maavadao_user_id = $1 AND is_active = true LIMIT 1`,
             [userId]
           );
           if (tgRows.length) connected.add("telegram");

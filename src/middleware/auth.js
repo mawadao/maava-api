@@ -52,7 +52,7 @@ async function requireAuth(req, res, next) {
     if (!validateApiKey(token)) {
       throw new UnauthorizedError(
         'Invalid token format',
-        'Token should start with "mawadao_" followed by 64 hex characters'
+        'Token should start with "maavadao_" followed by 64 hex characters'
       );
     }
     
@@ -176,7 +176,7 @@ async function requireUserAuth(req, res, next) {
     let user = null;
 
     if (validateApiKey(token)) {
-      // Standard mawadao_ API key path
+      // Standard maavadao_ API key path
       user = await UserService.findByApiKey(token);
     } else {
       // Fall back to Go-auth JWT (OAuth users store their JWT as apiKey)
@@ -184,7 +184,7 @@ async function requireUserAuth(req, res, next) {
       if (!jwtPayload) {
         throw new UnauthorizedError(
           'Invalid token format',
-          'Token should start with "mawadao_" followed by 64 hex characters, or be a valid JWT'
+          'Token should start with "maavadao_" followed by 64 hex characters, or be a valid JWT'
         );
       }
       const userId = jwtPayload.userId || jwtPayload.sub;
@@ -267,7 +267,7 @@ async function optionalUserAuth(req, res, next) {
  * Validates `INTERNAL_API_SECRET` from the `Authorization: Bearer <secret>` header
  * and impersonates the user specified in the `X-User-ID` header.
  *
- * This enables the mawa plugin (and other internal services) to call
+ * This enables the maava plugin (and other internal services) to call
  * seller endpoints on behalf of a specific user — without needing that user's JWT.
  *
  * Security:

@@ -3,7 +3,7 @@
  * /api/v1/channels/*
  *
  * Stores and retrieves channel bot credentials per user.
- * All routes require user authentication (Bearer mawadao_* token).
+ * All routes require user authentication (Bearer maavadao_* token).
  */
 
 const { Router } = require('express');
@@ -101,7 +101,7 @@ router.post(
 /**
  * DELETE /channels/:channelType
  * Disconnect (hard-delete) a channel. The caller should also call
- * the mawa gateway to remove the live config.
+ * the maava gateway to remove the live config.
  */
 router.delete(
   '/:channelType',

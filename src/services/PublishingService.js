@@ -4,7 +4,7 @@
  * Manages the publishing pipeline: job creation, provider dispatch
  * (Zernio for social, internal for marketplace), result tracking, and retries.
  *
- * Provider abstraction: mawaDao owns the publishing orchestration;
+ * Provider abstraction: maavaDao owns the publishing orchestration;
  * Zernio is the unified social media backend.
  */
 
@@ -20,10 +20,10 @@ const config = require("../config");
 const { getZernioService, getZernioServiceForUser } = require("./ZernioService");
 
 // GCS bucket where tenant workspace files are stored
-const GCS_BUCKET = "mawa-data";
+const GCS_BUCKET = "maava-data";
 const gcsStorage = new Storage();
 
-// Media proxy — HMAC-signed URLs served by mawa-api itself
+// Media proxy — HMAC-signed URLs served by maava-api itself
 const MEDIA_PROXY_SECRET =
   process.env.MEDIA_PROXY_SECRET ||
   process.env.JWT_SECRET ||
@@ -33,7 +33,7 @@ const CONFIG_API_BASE_URL =
   "http://localhost:3003";
 
 /**
- * Internal marketplace provider — publishes to mawaDao's own marketplace.
+ * Internal marketplace provider — publishes to maavaDao's own marketplace.
  * No external API call; just activates the product listing.
  */
 class InternalMarketplaceProvider {
@@ -177,7 +177,7 @@ class PublishingService {
 
   /**
    * Convert a relative /api/media/workspace/ URL to a publicly-downloadable
-   * HMAC-signed proxy URL served by mawa-api itself.
+   * HMAC-signed proxy URL served by maava-api itself.
    * Non-relative URLs are returned unchanged.
    */
   static _resolveMediaUrl(url, userId) {

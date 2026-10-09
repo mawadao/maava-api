@@ -18,7 +18,7 @@ const app = express();
 // Security middleware
 app.use(helmet());
 
-// CORS (unified auth: mawaDao + mawa share same tokens)
+// CORS (unified auth: maavaDao + maava share same tokens)
 // Origins from config.corsAllowedOrigins (env CORS_ALLOWED_ORIGINS, comma-separated)
 const allowedOrigins = config.corsAllowedOrigins;
 app.use(
@@ -29,7 +29,7 @@ app.use(
           if (allowedOrigins && allowedOrigins.includes(origin)) return cb(null, true);
           if (/^https:\/\/[a-z0-9-]+\.openclaw\.ai$/.test(origin))
             return cb(null, true);
-          if (/^https:\/\/([a-z0-9-]+\.)?mawadao\.com$/.test(origin))
+          if (/^https:\/\/([a-z0-9-]+\.)?maavadao\.com$/.test(origin))
             return cb(null, true);
           cb(null, false);
         }
@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
   res.json({
     name: "Configuration API",
     version: "1.0.0",
-    documentation: "https://www.mawadao.com/skill.md",
+    documentation: "https://www.maavadao.com/skill.md",
   });
 });
 
